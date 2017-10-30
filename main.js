@@ -28,7 +28,7 @@ $(document).ready(function() {
 	//			false); }
 	//	}); 
 	
-	var context = new webkitAudioContext()
+	var context = new AudioContext()
 	osc = context.createOscillator();
 	osc.type = 'sawtooth';
 	osc.connect(context.destination);
