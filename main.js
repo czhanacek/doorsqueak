@@ -9,55 +9,35 @@ var deltaMouseTime;
 var canvas;
 var ctx;
 var squeakSound;
+var context;
 var osc;
 var d;
 
 
 $(document).ready(function() {
 	canvas = document.getElementById("mycanvas");
-	//canvas.width = 640;
-	//canvas.height = 480;
-	//scrawl.loadExtensions({
-	//	path: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/128723/',
-	//	extensions: ['block'],
-	//	callback: function() {
-	//		window.addEventListener('load',
-	//			function() {
-	//				scrawl.init(); //run canvas code
-	//				main(); },
-	//			false); }
-	//	}); 
-	
-	var context = new AudioContext()
+	var doorColor = "#d8fff7";
+	var canvasWidth = 600;
+	var canvasHeight = 600;
+	context = new AudioContext()
 	osc = context.createOscillator();
 	osc.type = 'sawtooth';
 	osc.connect(context.destination);
 
 	ctx = canvas.getContext("2d");
-	ctx.fillStyle = "#d8fff7";
-	ctx.fillRect(0,0,600,600);
+	ctx.fillStyle = doorColor;
+	ctx.fillRect(0,0,canvasWidth,canvasHeight);
 	osc.frequency.value = 0;
 	osc.start(0);
 	//squeakSound.play();
 	canvas.addEventListener("mousemove", mouseXY, false);
-});
-
-function main() {
-	scrawl.makeBlock({
-		startX: 200,
-		startY: 200,
-		handleX: 'center',
-		handleY: 'center',
-		width: 200,
-		height: 200,
-		lineWidth: 10,
-		method: 'draw',
-		//strokeStyle: 'dotty',
-		roll: 0,
+	drawDoorPercentageOpen(100, 600, 200);
+	canvas.addEventListener('click', function() {
+		context.resume().then(() => {
+			return;
+		});
 	});
-
-	scrawl.render();
-}
+});
 
 function mouseXY(e) {
 	mouseMoveOld = ((canX * 100) / 600);
