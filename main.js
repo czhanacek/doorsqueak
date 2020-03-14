@@ -52,58 +52,46 @@ function mouseXY(e) {
 		canX = 200;
 	}
 	mouseTimeOld = Date.now();
-	//drawDoorPercentageOpen((Math.floor((canX * 100) / 600)), 480, 0);
 	drawDoorPercentageOpen((Math.floor((canX * 100) / 600)), 600, 200);
-	
+
 	squeak((Math.floor((canX * 100) / 600)));	
-	//drawLineAtPlace(canX, canY);
-	
-	console.log("Tried it");
 }
 
 function squeak(px) {
-	if(deltaMouse == 0) {
+	var freq = Math.pow((deltaMouse * 2000) - 30, 1.25);
+	console.log(freq);
+	if(isNaN(freq)) {
 		while(osc.frequency.value > 0) {
 			osc.frequency.value--;
 		}
 		
 	}
 	else {
-		if((px > 55 && px < 65)) {
-			console.log(deltaMouse);
-			osc.frequency.value = Math.pow(deltaMouse * 2000, 1.5);
-		}
-		else if((px > 78 && px < 90)) {
-			console.log(deltaMouse);
-			osc.frequency.value = Math.pow(deltaMouse * 2000, 2);
-		}
-		else if (px <= 33) {
+		if(freq < 60) {
 			osc.frequency.value = 0;
 		}
 		else {
-			osc.frequency.value = Math.pow(deltaMouse * 50, 1.5);
+			osc.frequency.value = freq;
 		}
-		
 	}
-	
-	
-	//console.log(squeakSound.playbackRate);
 }
 
 function drawLineAtPlace(posX, posY) {
 	ctx.fillRect(0,0,640,480);
-	//ctx.moveTo(200,200);
     ctx.beginPath();
     ctx.lineWidth = 10;
     ctx.lineCap = "round";
     ctx.moveTo(posX, posY);
-    //ctx.rotate();
     ctx.lineTo(posX + 10, posY + 10);
     ctx.stroke();
-    //ctx.rotate(-pos);
 }
 
-function drawDoorPercentageOpen(px, heightOfDoor, widthOfDoor) {
+
+// percentage -- int, between 0 and 100
+// height of door -- int, how big the door should be in pixels
+// width of door -- int, how wide the door should be in pixels
+function drawDoorPercentageOpen(percentage, heightOfDoor, widthOfDoor) {
+	px = percentage;
 	ctx.fillStyle = "#d8fff7";
 	ctx.fillRect(0,0,600,600);
 	
